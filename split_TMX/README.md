@@ -18,9 +18,9 @@
 
 4. **Run the Script**:
 
-By default, the PowerShell execution policy might prevent scripts from running. You can bypass this restriction temporarily by using the `-ExecutionPolicy Bypass` parameter when running the script:
+   - By default, the PowerShell execution policy might prevent scripts from running. You can bypass this restriction temporarily by using the `-ExecutionPolicy Bypass` parameter when running the script:
 
-`powershell -ExecutionPolicy Bypass -File .\SplitTMX.ps1`
+     `powershell -ExecutionPolicy Bypass -File .\SplitTMX.ps1`
 
 The script includes some detailed debugging output to track the progress and identify any issues with the extraction and splitting of the TMX file.  Please run the script and observe the output for any errors or unexpected behaviour. It should run as shown in the video to [this post in the RWS Community](https://community.rws.com/product-groups/trados-portfolio/trados-studio/f/studio/52741/how-to-split-tmx-translation-memory-by-size/168012).
 
