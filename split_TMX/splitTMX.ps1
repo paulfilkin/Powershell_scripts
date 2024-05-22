@@ -19,26 +19,27 @@ function Split-TMXFile {
     # Read the TMX file content
     $TMXContent = Get-Content -Path $TMXFilePath -Raw
     
-    # Define the header and footer
-    $Header = @"
-<?xml version='1.0' ?>
-<!DOCTYPE tmx SYSTEM 'tmx11.dtd'>
-<tmx version='1.1'>
-<header
-  creationtool='TMXtract 1.2 17-10-2017'
-  adminlang='EN-US'
-  srclang='IT-IT'
->
-</header>
-<body>
-"@
+    Write-Output "Extracting header and footer from the TMX file"
+    
+    # Extract header content
+    $HeaderMatch = [regex]::Match($TMXContent, "(?s)(<tmx.*?<body>)")
+    if ($HeaderMatch.Success) {
+        $Header = $HeaderMatch.Groups[1].Value
+    } else {
+        Write-Error "Failed to extract header from the TMX file."
+        exit
+    }
 
-    $Footer = @"
-</body>
-</tmx>
-"@
+    # Extract footer content
+    $FooterMatch = [regex]::Match($TMXContent, "(?s)(</body>.*?</tmx>)")
+    if ($FooterMatch.Success) {
+        $Footer = $FooterMatch.Groups[1].Value
+    } else {
+        Write-Error "Failed to extract footer from the TMX file."
+        exit
+    }
 
-    Write-Output "Extracting body content from the TMX file"
+    Write-Output "Header and footer extracted."
     
     # Extract body content
     $BodyMatch = [regex]::Match($TMXContent, "(?s)<body>(.*?)</body>")
@@ -51,11 +52,20 @@ function Split-TMXFile {
 
     Write-Output "Body content extracted. Length: $($Body.Length)"
     
+    # Verify the content of the body for debugging purposes
+    Write-Output "First 1000 characters of the body content for verification: "
+    Write-Output $Body.Substring(0, [math]::Min(1000, $Body.Length))
+    
     # Split the body content into <tu> segments
     Write-Output "Splitting body content into <tu> segments"
-    $Segments = [regex]::Matches($Body, "(?s)<tu>.*?</tu>") | ForEach-Object { $_.Value }
+    $Segments = [regex]::Matches($Body, "(?s)<tu\b.*?</tu>") | ForEach-Object { $_.Value }
 
     Write-Output "Total segments found: $($Segments.Count)"
+    
+    if ($Segments.Count -eq 0) {
+        Write-Error "No <tu> segments found in the TMX file. Exiting."
+        exit
+    }
     
     # Calculate the number of segments per file
     $TotalSegments = $Segments.Count
