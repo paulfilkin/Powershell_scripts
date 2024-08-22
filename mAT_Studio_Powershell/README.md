@@ -75,7 +75,7 @@ This script exports the content of an SDLTM (SDL Translation Memory) file to a T
 .\00_get-help-Studio.ps1
 ```
 
-Alternatively use the Autohotkey solution provided in the "[Run Powershell Scripts](https://github.com/paulfilkin/Powershell_scripts/tree/main/mAT_Studio_Powershell/Run%20Powershell%20Scripts)" folder.
+Alternatively use the Autohotkey solution provided in the "[Run Powershell Scripts](https://github.com/paulfilkin/AHK-scripts/tree/main/Run%20Powershell%20Scripts)" folder.
 
 Make sure your environment is correctly set up to find the necessary modules as described in each script. 
 
