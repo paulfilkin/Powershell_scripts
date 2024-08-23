@@ -1,6 +1,10 @@
 # Bilingual Word Table to XLIFF 2.0 Converter
 
-This PowerShell script converts a bilingual table in a Microsoft Word document into an XLIFF 2.0 file. This is particularly useful for those who work with translation projects and need to export translation data into an industry-standard XLIFF format.
+This PowerShell script converts a bilingual table in a Microsoft Word document into an XLIFF 2.0 file. The table used by this script looks like this (I also included a sample if you want to try it), so keep in  mind this won't do any old table!  If you have a table in a different format you'll probably have to edit the script:
+
+![table_format](C:\Users\pfilkin\Documents\Scripts\Powershell\Bilingual Word Table to XLIFF\table_format.png)
+
+This may be useful for those who work with translation projects and need to export translation data into an industry-standard XLIFF format. I wrote this one to answer a question on the RWS Community,
 
 ## Requirements
 
