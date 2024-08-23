@@ -46,18 +46,18 @@ Enables the creation of a new project using a selected project template and a ZI
 
 ## How to Run the Scripts
 
-      1. Clone this repository to your local machine.
-      2. Ensure that the `GroupShareToolkit` module is properly installed and configured in your environment.
-      3. Navigate to the `scripts` folder.
-      4. Run the desired script using PowerShell.
+1. Clone this repository to your local machine.
+2. Ensure that the `GroupShareToolkit` module is properly installed and configured in your environment.
+3. Navigate to the `scripts` folder.
+4. Run the desired script using PowerShell.
 
    ```sh
    .\10_create_Project_by_Template.ps1
    ```
 
-   Alternatively use the Autohotkey solution provided in the "[Run Powershell Scripts](https://github.com/paulfilkin/AHK-scripts/tree/main/Run%20Powershell%20Scripts)" folder.
+Alternatively use the Autohotkey solution provided in the "[Run Powershell Scripts](https://github.com/paulfilkin/AHK-scripts/tree/main/Run%20Powershell%20Scripts)" folder.
 
-   Make sure your environment is correctly set up to find the necessary modules as described in each script. 
+Make sure your environment is correctly set up to find the necessary modules as described in each script. 
 
 ## Credits
 
