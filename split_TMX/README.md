@@ -6,6 +6,9 @@ I did base this on a TMX downloaded from the [DGT-Translation Memory website](ht
 
 Also note there are two versions of the script using different methods and outputs.
 
+- ***splitTMX.ps1***: somewhat quicker and requires the script to be in the same folder as the TMX
+- ***splitTMX_v2.ps1***: slower, but doesn't require the script to be in the same folder and it will write the split TMX files into a new folder
+
 ## Features
 
 - **File Selection**: Prompts the user to select the TMX file to be split.
@@ -48,3 +51,6 @@ Suppose you have a TMX file named `Example.tmx` and you want to split it into 3 
 - **Invalid number of parts**: If the number of parts entered is not a valid positive integer, the script will terminate. Please ensure you enter a valid number.
 - **TMX Complexity**: I wrote this script specifically to solve a problem with a TMX I had to hand.  It may not work correctly for every TMX you'll ever come across.  So be prepared to make some changes as needed.  Hopefully this will give you the idea.
 
+## Contributions
+
+I welcome contributions from the community to help enhance and improve the PowerShell scripts in this repository.  Whether you have found a bug, want to add new features, or have suggestions for improving existing functionality, your contributions are greatly appreciated.  In particular if you can make use of  `XmlReader`  which I tried to use to improve performance but failed.  I had challenges in handling XML name spaces, complex TMX file structures, and the case sensitivity of element names.  These factors often led to the script failing to correctly identify and process `<tu>` elements, resulting in missed data and errors.  To address these problems, I switched to using regex for direct extraction, which simplified the process and improved reliability across different TMX file variations but with the penalty of awful performance using large files.  I may come back to this later but welcome assistance in the meantime!
