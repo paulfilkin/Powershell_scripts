@@ -13,10 +13,10 @@ I did base this on a TMX downloaded from the [DGT-Translation Memory website](ht
 
 ## Usage
 
-1. **Run the Script**: Launch the script in a PowerShell environment.
+1. **Run the Script**: Launch the script in a PowerShell environment (it does not have to be in the same folder as the TMX)
 2. **Select TMX File**: A file dialog will appear, allowing you to choose the TMX file you wish to split.
 3. **Enter Number of Parts**: You will be prompted to enter the number of parts to split the TMX file into.
-4. **Processing**: The script will process the TMX file and create the specified number of parts in the same directory as the original file.
+4. **Processing**: The script will process the TMX file and create the specified number of parts into a folder with the same name and location as the original file.
 5. **Output**: The split files will be named in the format `001_Filename.tmx`, `002_Filename.tmx`, etc.
 
 ## Example
