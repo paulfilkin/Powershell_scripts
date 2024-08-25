@@ -1,26 +1,42 @@
-# Powershell script to split a TMX into a number of smaller parts.
+# TMX File Splitter
 
-## To use the script
+This PowerShell script is designed to split a Translation Memory eXchange (TMX) file into multiple smaller TMX files. The script provides a user-friendly interface for selecting the TMX file and specifying the number of parts to split it into. Each part will contain a proportional number of translation units (`<tu>` elements), ensuring that the content is evenly distributed across the generated files.
 
-1. **Save the Script**:
+I did base this on a TMX downloaded from the [DGT-Translation Memory website](https://joint-research-centre.ec.europa.eu/language-technology-resources/dgt-translation-memory_en) so there is no guarantee it will work for every variety of TMX you'll ever come across.  You'll find the sample in the repository if you want to test it.
 
-   - Select the `splitTMX.ps1` file and download from Github
-   - Create a new folder and save the script into that folder. For example `c:\Scripts`
+## Features
 
-2. **Open PowerShell**:
+- **File Selection**: Prompts the user to select the TMX file to be split.
+- **Header and Footer Extraction**: Automatically extracts and retains the original TMX file's header and footer to ensure the integrity of the format in the split files.
+- **Body Splitting**: Splits the body of the TMX file into user-defined parts, distributing `<tu>` elements evenly across the new files.
+- **Output**: Saves the split TMX files in the same directory as the original file, with filenames indicating the part number.
 
-   - Press `Win + X` and select `Windows PowerShell` or `Windows PowerShell (Admin)` if you need administrative privileges.
+## Usage
 
-3. **Navigate to the Script Directory**:
+1. **Run the Script**: Launch the script in a PowerShell environment.
+2. **Select TMX File**: A file dialog will appear, allowing you to choose the TMX file you wish to split.
+3. **Enter Number of Parts**: You will be prompted to enter the number of parts to split the TMX file into.
+4. **Processing**: The script will process the TMX file and create the specified number of parts in the same directory as the original file.
+5. **Output**: The split files will be named in the format `001_Filename.tmx`, `002_Filename.tmx`, etc.
 
-   - Use the `cd` command to navigate to the directory where you saved the `SplitTMX.ps1` file. For example, if you saved it in `C:\Scripts`, you would type:
-     cd C:\Scripts
+## Example
 
-4. **Run the Script**:
+Suppose you have a TMX file named `Example.tmx` and you want to split it into 3 parts:
 
-   - By default, the PowerShell execution policy might prevent scripts from running. You can bypass this restriction temporarily by using the `-ExecutionPolicy Bypass` parameter when running the script:
+1. Run the script.
+2. Select `Example.tmx` from the file dialog.
+3. Enter `3` when prompted for the number of parts.
+4. The script will create `001_Example.tmx`, `002_Example.tmx`, and `003_Example.tmx` in the same directory as `Example.tmx`.
 
-     `powershell -ExecutionPolicy Bypass -File .\SplitTMX.ps1`
+## Notes
 
-The script includes some detailed debugging output to track the progress and identify any issues with the extraction and splitting of the TMX file.  Please run the script and observe the output for any errors or unexpected behaviour. It should run as shown in the video to [this post in the RWS Community](https://community.rws.com/product-groups/trados-portfolio/trados-studio/f/studio/52741/how-to-split-tmx-translation-memory-by-size/168012).
+- Ensure that the TMX file is well-formed and contains a valid structure, as the script relies on regular expressions to parse and split the file.
+- The script is designed to handle TMX files of any size, but processing time may vary depending on the file size and the number of parts specified.
+- The split files will retain the original TMX format, including the header and footer sections.
+
+## Troubleshooting
+
+- **No `<tu>` segments found**: If the script fails to find any `<tu>` elements in the TMX file, it will terminate. Ensure the TMX file is correctly formatted and contains translation units.
+- **Invalid number of parts**: If the number of parts entered is not a valid positive integer, the script will terminate. Please ensure you enter a valid number.
+- **TMX Complexity**: I wrote this script specifically to solve a problem with a TMX I had to hand.  It may not work correctly for every TMX you'll ever come across.  So be prepared to make some changes as needed.  Hopefully this will give you the idea.
 
