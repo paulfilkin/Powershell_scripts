@@ -7,95 +7,94 @@ function Get-TMXFile {
     return $OpenFileDialog.FileName
 }
 
-# Function to split the TMX file using Regex for TU extraction
+# Function to split the TMX file
 function Split-TMXFile {
     param (
         [string]$TMXFilePath,
         [int]$NumParts
     )
-
-    Write-Output "Reading TMX file content from: $TMXFilePath"
-
-    # Read the entire file as text
+    
+    # Read the TMX file content
     $TMXContent = Get-Content -Path $TMXFilePath -Raw
 
-    # Extract the header
-    $headerMatch = [regex]::Match($TMXContent, "(?s)(<tmx.*?<body>)")
-    if ($headerMatch.Success) {
-        $header = $headerMatch.Groups[1].Value
-        Write-Output "Header extracted."
+    # Extract header content
+    $HeaderMatch = [regex]::Match($TMXContent, "(?s)(<tmx.*?<body>)")
+    if ($HeaderMatch.Success) {
+        $Header = $HeaderMatch.Groups[1].Value
     } else {
-        Write-Error "Failed to extract the header. Exiting."
+        Write-Error "Failed to extract header from the TMX file."
         exit
     }
 
-    # Extract the footer
-    $footerMatch = [regex]::Match($TMXContent, "(?s)(</body>.*?</tmx>)")
-    if ($footerMatch.Success) {
-        $footer = $footerMatch.Groups[1].Value
-        Write-Output "Footer extracted."
+    # Extract footer content
+    $FooterMatch = [regex]::Match($TMXContent, "(?s)(</body>.*?</tmx>)")
+    if ($FooterMatch.Success) {
+        $Footer = $FooterMatch.Groups[1].Value
     } else {
-        Write-Error "Failed to extract the footer. Exiting."
+        Write-Error "Failed to extract footer from the TMX file."
         exit
     }
 
-    # Extract all TU elements
-    $tuMatches = [regex]::Matches($TMXContent, "(?s)(<tu\b.*?</tu>)")
-    $segments = @()
-    foreach ($match in $tuMatches) {
-        $segments += $match.Value
+    # Extract body content
+    $BodyMatch = [regex]::Match($TMXContent, "(?s)<body>(.*?)</body>")
+    if ($BodyMatch.Success) {
+        $Body = $BodyMatch.Groups[1].Value
+    } else {
+        Write-Error "Failed to extract <body> content from the TMX file."
+        exit
     }
 
-    $totalSegments = $segments.Count
-    if ($totalSegments -eq 0) {
+    # Split the body content into <tu> segments
+    $Segments = [regex]::Matches($Body, "(?s)<tu\b.*?</tu>") | ForEach-Object { $_.Value }
+
+    if ($Segments.Count -eq 0) {
         Write-Error "No <tu> segments found in the TMX file. Exiting."
         exit
     }
-
-    Write-Output "Total segments found: $totalSegments"
-
-    $segmentsPerFile = [math]::Ceiling($totalSegments / $NumParts)
-    Write-Output "Segments per file: $segmentsPerFile"
-
-    # Get the original filename without extension and the folder path
+    
+    # Calculate the number of segments per file
+    $TotalSegments = $Segments.Count
+    $SegmentsPerFile = [math]::Ceiling($TotalSegments / $NumParts)
+    
+    # Get the original filename without extension
     $FileName = [System.IO.Path]::GetFileNameWithoutExtension($TMXFilePath)
     $FilePath = [System.IO.Path]::GetDirectoryName($TMXFilePath)
-
+    
     # Create a new folder for the split files
-    $SplitFolderPath = Join-Path -Path $FilePath -ChildPath "Split_$FileName"
-    if (-not (Test-Path -Path $SplitFolderPath)) {
-        New-Item -Path $SplitFolderPath -ItemType Directory | Out-Null
-        Write-Output "Created directory: $SplitFolderPath"
+    $NewFolderPath = Join-Path -Path $FilePath -ChildPath $FileName
+    if (-not (Test-Path -Path $NewFolderPath)) {
+        New-Item -Path $NewFolderPath -ItemType Directory | Out-Null
     }
 
     # Split and write new TMX files
     for ($i = 0; $i -lt $NumParts; $i++) {
-        $startIndex = $i * $segmentsPerFile
-        $endIndex = [math]::Min(($i + 1) * $segmentsPerFile, $totalSegments) - 1
-        Write-Output "Processing file part $($i + 1) - Segments $startIndex to $endIndex"
+        $StartIndex = $i * $SegmentsPerFile
+        $EndIndex = [math]::Min(($i + 1) * $SegmentsPerFile, $TotalSegments) - 1
+        
+        if ($EndIndex -ge $StartIndex) {
+            $NewFileName = "{0:000}_$FileName.tmx" -f ($i + 1)
+            $NewFilePath = Join-Path -Path $NewFolderPath -ChildPath $NewFileName
 
-        if ($endIndex -ge $startIndex) {
-            $newBody = $segments[$startIndex..$endIndex] -join "`r`n"
-            $newTMXContent = "$header`r`n$newBody`r`n$footer"
-
-            $newFileName = "{0:000}_$FileName.tmx" -f ($i + 1)
-            $newFilePath = Join-Path -Path $SplitFolderPath -ChildPath $newFileName
-            Write-Output "Writing new TMX file: $newFilePath"
-            Set-Content -Path $newFilePath -Value $newTMXContent -Encoding UTF8
-            Write-Output "Created file: $newFilePath"
+            # Write the header
+            Add-Content -Path $NewFilePath -Value $Header -Encoding UTF8
+            
+            # Write the segments directly to the file
+            for ($j = $StartIndex; $j -le $EndIndex; $j++) {
+                Add-Content -Path $NewFilePath -Value $Segments[$j] -Encoding UTF8
+            }
+            
+            # Write the footer
+            Add-Content -Path $NewFilePath -Value $Footer -Encoding UTF8
         }
     }
 }
 
 # Prompt for TMX file
-Write-Output "Please select the TMX file you wish to split."
 $TMXFilePath = Get-TMXFile
 if (-not $TMXFilePath) {
     Write-Error "No TMX file selected. Exiting."
     exit
 }
-
-Write-Output "Selected TMX file: $TMXFilePath"
 
 # Prompt for number of parts
 $NumParts = Read-Host "Enter the number of parts to split the TMX file into"
@@ -105,7 +104,7 @@ if (-not [int]::TryParse($NumParts, [ref]$NumParts) -or $NumParts -le 0) {
     exit
 }
 
-Write-Output "Number of parts to split the TMX file into: $NumParts"
-
 # Split the TMX file
 Split-TMXFile -TMXFilePath $TMXFilePath -NumParts $NumParts
+
+# END OF SCRIPT
