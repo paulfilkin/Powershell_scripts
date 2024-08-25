@@ -4,6 +4,8 @@ This PowerShell script is designed to split a Translation Memory eXchange (TMX) 
 
 I did base this on a TMX downloaded from the [DGT-Translation Memory website](https://joint-research-centre.ec.europa.eu/language-technology-resources/dgt-translation-memory_en) so there is no guarantee it will work for every variety of TMX you'll ever come across.  You'll find the sample in the repository if you want to test it.
 
+Also note there are two versions of the script using different methods and outputs.
+
 ## Features
 
 - **File Selection**: Prompts the user to select the TMX file to be split.
@@ -13,10 +15,16 @@ I did base this on a TMX downloaded from the [DGT-Translation Memory website](ht
 
 ## Usage
 
-1. **Run the Script**: Launch the script in a PowerShell environment (it does not have to be in the same folder as the TMX)
+1. **Run the Script**: Launch the script in a PowerShell environment
+   - if running ***splitTMX.ps1*** it should be copied into the same folder as the TMX
+   - if running ***splitTMX_v2.ps1*** it does not have to be in the same folder as the TMX
+
 2. **Select TMX File**: A file dialog will appear, allowing you to choose the TMX file you wish to split.
 3. **Enter Number of Parts**: You will be prompted to enter the number of parts to split the TMX file into.
-4. **Processing**: The script will process the TMX file and create the specified number of parts into a folder with the same name and location as the original file.
+4. **Processing**: The script will process the TMX file and create the specified number of parts
+   - if running ***splitTMX.ps1***: into the same folder as the original TMX
+   - if running ***splitTMX_v2.ps1***: into a new folder with the same name and location as the original file.
+
 5. **Output**: The split files will be named in the format `001_Filename.tmx`, `002_Filename.tmx`, etc.
 
 ## Example
