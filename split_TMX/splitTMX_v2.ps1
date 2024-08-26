@@ -14,9 +14,13 @@ function Split-TMXFile {
         [int]$NumParts
     )
     
+    Write-Output "Reading TMX file content from: $TMXFilePath"
+    
     # Read the TMX file content
     $TMXContent = Get-Content -Path $TMXFilePath -Raw
-
+    
+    Write-Output "Extracting header and footer from the TMX file"
+    
     # Extract header content
     $HeaderMatch = [regex]::Match($TMXContent, "(?s)(<tmx.*?<body>)")
     if ($HeaderMatch.Success) {
@@ -35,6 +39,8 @@ function Split-TMXFile {
         exit
     }
 
+    Write-Output "Header and footer extracted."
+    
     # Extract body content
     $BodyMatch = [regex]::Match($TMXContent, "(?s)<body>(.*?)</body>")
     if ($BodyMatch.Success) {
@@ -44,9 +50,14 @@ function Split-TMXFile {
         exit
     }
 
+    Write-Output "Body content extracted. Length: $($Body.Length)"
+    
     # Split the body content into <tu> segments
+    Write-Output "Splitting body content into <tu> segments"
     $Segments = [regex]::Matches($Body, "(?s)<tu\b.*?</tu>") | ForEach-Object { $_.Value }
 
+    Write-Output "Total segments found: $($Segments.Count)"
+    
     if ($Segments.Count -eq 0) {
         Write-Error "No <tu> segments found in the TMX file. Exiting."
         exit
@@ -55,6 +66,7 @@ function Split-TMXFile {
     # Calculate the number of segments per file
     $TotalSegments = $Segments.Count
     $SegmentsPerFile = [math]::Ceiling($TotalSegments / $NumParts)
+    Write-Output "Segments per file: $SegmentsPerFile"
     
     # Get the original filename without extension
     $FileName = [System.IO.Path]::GetFileNameWithoutExtension($TMXFilePath)
@@ -70,21 +82,23 @@ function Split-TMXFile {
     for ($i = 0; $i -lt $NumParts; $i++) {
         $StartIndex = $i * $SegmentsPerFile
         $EndIndex = [math]::Min(($i + 1) * $SegmentsPerFile, $TotalSegments) - 1
+        Write-Output "Processing file part $($i + 1) - Segments $StartIndex to $EndIndex"
         
         if ($EndIndex -ge $StartIndex) {
+            # Collect the segments for this part into a single string
+            $NewBody = $Segments[$StartIndex..$EndIndex] -join "`r`n"
+            
+            # Create the new TMX content in one go
+            $NewTMXContent = "$Header`r`n$NewBody`r`n$Footer"
+            
+            # Write the new TMX file with a single write operation
             $NewFileName = "{0:000}_$FileName.tmx" -f ($i + 1)
             $NewFilePath = Join-Path -Path $NewFolderPath -ChildPath $NewFileName
-
-            # Write the header
-            Add-Content -Path $NewFilePath -Value $Header -Encoding UTF8
-            
-            # Write the segments directly to the file
-            for ($j = $StartIndex; $j -le $EndIndex; $j++) {
-                Add-Content -Path $NewFilePath -Value $Segments[$j] -Encoding UTF8
-            }
-            
-            # Write the footer
-            Add-Content -Path $NewFilePath -Value $Footer -Encoding UTF8
+            Write-Output "Writing new TMX file: $NewFilePath"
+            Set-Content -Path $NewFilePath -Value $NewTMXContent -Encoding UTF8
+            Write-Output "Created file: $NewFilePath"
+        } else {
+            Write-Output "Skipping part $($i + 1) due to no segments"
         }
     }
 }
