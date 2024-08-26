@@ -6,27 +6,25 @@ I did base this on a TMX downloaded from the [DGT-Translation Memory website](ht
 
 Also note there are two versions of the script using different methods and outputs.
 
-- ***splitTMX.ps1***: somewhat quicker and requires the script to be in the same folder as the TMX
-- ***splitTMX_v2.ps1***: slower, but doesn't require the script to be in the same folder and it will write the split TMX files into a new folder
+- ***splitTMX.ps1***: writes the split TMX files into the same folder as the original TMX
+- ***splitTMX_v2.ps1***: writes the split TMX files into a new folder given the same name as the original TMX
 
 ## Features
 
 - **File Selection**: Prompts the user to select the TMX file to be split.
 - **Header and Footer Extraction**: Automatically extracts and retains the original TMX file's header and footer to ensure the integrity of the format in the split files.
 - **Body Splitting**: Splits the body of the TMX file into user-defined parts, distributing `<tu>` elements evenly across the new files.
-- **Output**: Saves the split TMX files in the same directory as the original file, with filenames indicating the part number.
+- **Output**: Saves the split TMX files in the same directory as the original file (one in a sub-folder, one not), with filenames indicating the part number.
 
 ## Usage
 
-1. **Run the Script**: Launch the script in a PowerShell environment
-   - if running ***splitTMX.ps1*** it should be copied into the same folder as the TMX
-   - if running ***splitTMX_v2.ps1*** it does not have to be in the same folder as the TMX
-
+1. **Run the Script**: Launch the scripts in a PowerShell environment (neither need to be in the same folder as the TMX)
+   
 2. **Select TMX File**: A file dialog will appear, allowing you to choose the TMX file you wish to split.
 3. **Enter Number of Parts**: You will be prompted to enter the number of parts to split the TMX file into.
 4. **Processing**: The script will process the TMX file and create the specified number of parts
    - if running ***splitTMX.ps1***: into the same folder as the original TMX
-   - if running ***splitTMX_v2.ps1***: into a new folder with the same name and location as the original file.
+   - if running ***splitTMX_v2.ps1***: into a new folder with the same name (without the TMX extension) and location as the original file.
 
 5. **Output**: The split files will be named in the format `001_Filename.tmx`, `002_Filename.tmx`, etc.
 
@@ -37,7 +35,7 @@ Suppose you have a TMX file named `Example.tmx` and you want to split it into 3 
 1. Run the script.
 2. Select `Example.tmx` from the file dialog.
 3. Enter `3` when prompted for the number of parts.
-4. The script will create `001_Example.tmx`, `002_Example.tmx`, and `003_Example.tmx` in the same directory as `Example.tmx`.
+4. The script will create `001_Example.tmx`, `002_Example.tmx`, and `003_Example.tmx` in the same directory as `Example.tmx`, or in a new directory called  `Example` depending on which script you run.
 
 ## Notes
 
