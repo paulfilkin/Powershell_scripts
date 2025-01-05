@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `GroupShareToolkit` module is designed to simplify and enhance the experience of working with Trados GroupShare by automating common tasks related to module loading, user authentication, and credential management. This toolkit serves as an extension to the [GroupShare PowerShell Toolkit](https://github.com/RWS/groupshare-api-powershell-toolkit)) that is provided by the Trados AppStore Team, adding functionality that streamlines interactions with the GroupShare server.
+The `GroupShareToolkit` module is designed to simplify and enhance the experience of working with Trados GroupShare by automating common tasks related to module loading, user authentication, and credential management. This toolkit serves as an extension to the [GroupShare PowerShell Toolkit](https://github.com/RWS/groupshare-api-powershell-toolkit) that is provided by the Trados AppStore Team, adding functionality that streamlines interactions with the GroupShare server.
 
 The GroupShare PowerShell Toolkit includes several modules, that I have also included here, provided by the Trados AppStore Team, each with its own specific focus:
 
