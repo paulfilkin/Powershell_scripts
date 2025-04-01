@@ -28,6 +28,7 @@ This script automates the process of upgrading a bilingual XML (bitext) file int
 
 The Bitext xml for this sample was based on this example, so you will have to adjust your code to suit your own files:
 
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <bitext>
     <record wuid="a1234567b8c9d0e1f2g3h4i5j6k7l8m9">
@@ -43,7 +44,7 @@ The Bitext xml for this sample was based on this example, so you will have to ad
         <his><![CDATA[UA 2025/04/01]]></his>
     </record>
 </bitext>
-
+```
 
 ### unblock_script.ps1
 
