@@ -65,6 +65,29 @@ This script exports the content of an SDLTM (SDL Translation Memory) file to a T
   - Exports the selected SDLTM file to a TMX file.
   - Notifies the user of the export's success.
 
+### 6. `05_SDLTM_to_Excel.ps1`
+
+This script converts an SDLTM file into a TMX file and then uses a Python script to convert the TMX into an Excel spreadsheet. It’s useful for linguists or project managers who want to review or filter TM content in Excel.
+
+- **Usage**: Run this script to select an SDLTM file and produce an Excel version of its contents.
+- **Main Steps**:
+  - Prompts the user to select an SDLTM file.
+  - Converts the file to TMX.
+  - Executes a Python script to transform the TMX into an Excel file.
+  - Confirms successful export or shows an error if conversion fails.
+
+### 7. `06_upgradeBitexts.ps1`
+
+This script upgrades a bilingual XML file (bitext format) into a Trados Studio Translation Memory (SDLTM). It first converts the XML to TMX, then creates and populates an SDLTM using the Trados Studio Toolkit.
+
+- **Usage**: Run this script to convert Bitext XML files into usable SDLTMs.
+- **Main Steps**:
+  - Prompts the user to select a Bitext XML file.
+  - Parses the source and target content.
+  - Converts the content into TMX format.
+  - Prompts the user to confirm language codes.
+  - Creates a new TM and imports the TMX.
+
 ## How to Run the Scripts
 
 1. Clone this repository to your local machine.
