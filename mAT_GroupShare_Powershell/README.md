@@ -44,6 +44,9 @@ Retrieves and displays the phases of a specified project, grouped by language, a
 ### 12. 10_create_Project_by_Template.ps1
 Enables the creation of a new project using a selected project template and a ZIP file containing the project files. This script simplifies project creation by leveraging existing templates.
 
+### 13. 11_Activity_Report.ps1
+Generates comprehensive activity reports for the last 6-months showing things like project creation and management patterns, background task execution, user activity across organizations, organizational hierarchy and relationships and resource utilisation trends.
+
 ## How to Run the Scripts
 
 1. Clone this repository to your local machine.
