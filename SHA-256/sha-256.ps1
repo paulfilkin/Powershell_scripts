@@ -1,4 +1,4 @@
-﻿# compute-sha256.ps1
+﻿# sha-256.ps1
 # Prompts for a file path, computes its SHA-256 hash, displays it, and copies it to the clipboard.
 
 # Prompt user for the file path
@@ -26,3 +26,4 @@ try {
 catch {
     Write-Host "Error calculating hash: $($_.Exception.Message)" -ForegroundColor Red
 }
+
